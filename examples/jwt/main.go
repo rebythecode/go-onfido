@@ -38,7 +38,7 @@ func main() {
 		panic(err)
 	}
 
-	t, err := client.NewSdkToken(ctx, applicant.ID, "https://*.onfido.com/documentation/*")
+	t, err := client.NewSdkToken(ctx, applicant.ID, "https://*.onfido.com/documentation/*", "")
 	if err != nil {
 		panic(err)
 	}
