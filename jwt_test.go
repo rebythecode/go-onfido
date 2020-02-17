@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/gorilla/mux"
-	onfido "github.com/uw-labs/go-onfido"
+	"github.com/rebythecode/go-onfido"
 )
 
 func TestNewSdkToken_NonOKResponse(t *testing.T) {

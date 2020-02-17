@@ -9,7 +9,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
-	onfido "github.com/uw-labs/go-onfido"
+
+	"github.com/rebythecode/go-onfido"
 )
 
 func TestPickAddresses_EmptyPostcode(t *testing.T) {
