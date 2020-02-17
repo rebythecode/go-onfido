@@ -43,15 +43,17 @@ type DocumentRequest struct {
 
 // Document represents a document in Onfido API
 type Document struct {
-	ID           string       `json:"id,omitempty"`
-	CreatedAt    *time.Time   `json:"created_at,omitempty"`
-	Href         string       `json:"href,omitempty"`
-	DownloadHref string       `json:"download_href,omitempty"`
-	FileName     string       `json:"file_name,omitempty"`
-	FileType     string       `json:"file_type,omitempty"`
-	FileSize     int          `json:"file_size,omitempty"`
-	Type         DocumentType `json:"type,omitempty"`
-	Side         DocumentSide `json:"side,omitempty"`
+	ID             string       `json:"id,omitempty"`
+	CreatedAt      *time.Time   `json:"created_at,omitempty"`
+	Href           string       `json:"href,omitempty"`
+	DownloadHref   string       `json:"download_href,omitempty"`
+	FileName       string       `json:"file_name,omitempty"`
+	FileType       string       `json:"file_type,omitempty"`
+	FileSize       int          `json:"file_size,omitempty"`
+	Type           DocumentType `json:"type,omitempty"`
+	Side           DocumentSide `json:"side,omitempty"`
+	IssuingCountry string       `json:"issuing_country,omitempty"`
+	ApplicantID    string       `json:"applicant_id,omitempty"`
 }
 
 // Documents represents a list of documents from the Onfido API
