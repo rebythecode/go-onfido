@@ -24,7 +24,7 @@ func TestNewSdkToken_NonOKResponse(t *testing.T) {
 	client := onfido.NewClient("123")
 	client.Endpoint = srv.URL
 
-	token, err := client.NewSdkToken(context.Background(), "123", "https://*.onfido.com/documentation/*")
+	token, err := client.NewSdkToken(context.Background(), "123", "https://*.onfido.com/documentation/*", "")
 	if err == nil {
 		t.Fatal("expected to see an error")
 	}
@@ -35,9 +35,10 @@ func TestNewSdkToken_NonOKResponse(t *testing.T) {
 
 func TestNewSdkToken_ApplicantsRetrieved(t *testing.T) {
 	expected := onfido.SdkToken{
-		ApplicantID: "klj25h2jk5j4k5jk35",
-		Referrer:    "https://*.uw-labs.co.uk/documentation/*",
-		Token:       "423423m4n234czxKJKDLF",
+		ApplicantID:   "klj25h2jk5j4k5jk35",
+		Referrer:      "https://*.uw-labs.co.uk/documentation/*",
+		Token:         "423423m4n234czxKJKDLF",
+		ApplicationID: "applicationid",
 	}
 	expectedJSON, err := json.Marshal(expected)
 	if err != nil {
@@ -50,6 +51,7 @@ func TestNewSdkToken_ApplicantsRetrieved(t *testing.T) {
 		assert.NoError(t, json.NewDecoder(r.Body).Decode(&tk))
 		assert.Equal(t, expected.ApplicantID, tk.ApplicantID)
 		assert.Equal(t, expected.Referrer, tk.Referrer)
+		assert.Equal(t, expected.ApplicationID, tk.ApplicationID)
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -62,7 +64,7 @@ func TestNewSdkToken_ApplicantsRetrieved(t *testing.T) {
 	client := onfido.NewClient("123")
 	client.Endpoint = srv.URL
 
-	token, err := client.NewSdkToken(context.Background(), expected.ApplicantID, expected.Referrer)
+	token, err := client.NewSdkToken(context.Background(), expected.ApplicantID, expected.Referrer, "applicationid")
 	if err != nil {
 		t.Fatal(err)
 	}
