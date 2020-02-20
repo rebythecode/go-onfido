@@ -34,13 +34,13 @@ const (
 
 // CheckRequest represents a check request to Onfido API
 type CheckRequest struct {
-	Type                    CheckType `json:"type"`
-	RedirectURI             string    `json:"redirect_uri,omitempty"`
-	Reports                 []*Report `json:"reports"`
-	Tags                    []string  `json:"tags,omitempty"`
-	SupressFormEmails       bool      `json:"suppress_form_emails,omitempty"`
-	Async                   bool      `json:"async,omitempty"`
-	ChargeApplicantForCheck bool      `json:"charge_applicant_for_check,omitempty"`
+	ApplicantID           string       `json:"applicant_id,omitempty"`
+	ReportNames           []ReportName `json:"report_names"`
+	ApplicantProvidesData bool         `json:"applicant_provides_data,omitempty"`
+	Asynchronous          bool         `json:"asynchronous,omitempty"`
+	Tags                  []string     `json:"tags,omitempty"`
+	SupressFormEmails     bool         `json:"suppress_form_emails,omitempty"`
+	RedirectURI           string       `json:"redirect_uri,omitempty"`
 	// Consider is used for Sandbox Testing of multiple report scenarios.
 	// see https://documentation.onfido.com/#sandbox-responses
 	Consider []ReportName `json:"consider,omitempty"`
@@ -92,7 +92,7 @@ func (c *Client) CreateCheck(ctx context.Context, applicantID string, cr CheckRe
 		return nil, err
 	}
 
-	req, err := c.newRequest("POST", "/applicants/"+applicantID+"/checks", bytes.NewBuffer(jsonStr))
+	req, err := c.newRequest("POST", "/checks", bytes.NewBuffer(jsonStr))
 	if err != nil {
 		return nil, err
 	}
