@@ -24,16 +24,16 @@ func TestGetReport_NonOKResponse(t *testing.T) {
 	client := onfido.NewClient("123")
 	client.Endpoint = srv.URL
 
-	_, err := client.GetReport(context.Background(), "", "")
+	_, err := client.GetReport(context.Background(), "")
 	if err == nil {
 		t.Fatal("expected server to return non ok response, got successful response")
 	}
 }
 
 func TestGetReport_ReportRetrieved_Clear(t *testing.T) {
-	checkID := "541d040b-89f8-444b-8921-16b1333bf1c6"
+	reportID := "541d040b-89f8-444b-8921-16b1333bf1c6"
 	expected := onfido.Report{
-		ID:        "ce62d838-56f8-4ea5-98be-e7166d1dc33d",
+		ID:        "541d040b-89f8-444b-8921-16b1333bf1c6",
 		Name:      onfido.ReportNameDocument,
 		Status:    "complete",
 		Result:    onfido.ReportResultClear,
@@ -51,9 +51,8 @@ func TestGetReport_ReportRetrieved_Clear(t *testing.T) {
 	}
 
 	m := mux.NewRouter()
-	m.HandleFunc("/checks/{checkId}/reports/{reportId}", func(w http.ResponseWriter, r *http.Request) {
+	m.HandleFunc("/reports/{reportId}", func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-		assert.Equal(t, checkID, vars["checkId"])
 		assert.Equal(t, expected.ID, vars["reportId"])
 
 		w.Header().Set("Content-Type", "application/json")
@@ -67,7 +66,7 @@ func TestGetReport_ReportRetrieved_Clear(t *testing.T) {
 	client := onfido.NewClient("123")
 	client.Endpoint = srv.URL
 
-	r, err := client.GetReport(context.Background(), checkID, expected.ID)
+	r, err := client.GetReport(context.Background(), reportID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -88,12 +87,12 @@ func TestGetReport_ReportRetrieved_Clear(t *testing.T) {
 }
 
 func TestGetReport_ReportRetrieved_Consider(t *testing.T) {
-	checkID := "541d040b-89f8-444b-8921-16b1333bf1c6"
+	reportID := "541d040b-89f8-444b-8921-16b1333bf1c6"
 	breakdownResultConsider := onfido.BreakdownResult(onfido.ReportResultConsider)
 	breakdownSubResultConsider := onfido.BreakdownSubResult(onfido.ReportResultConsider)
 	breakdownSubResultClear := onfido.BreakdownSubResult(onfido.ReportResultClear)
 	expected := onfido.Report{
-		ID:        "ce62d838-56f8-4ea5-98be-e7166d1dc33d",
+		ID:        "541d040b-89f8-444b-8921-16b1333bf1c6",
 		Name:      onfido.ReportNameDocument,
 		Status:    "complete",
 		Result:    onfido.ReportResultConsider,
@@ -124,9 +123,8 @@ func TestGetReport_ReportRetrieved_Consider(t *testing.T) {
 	}
 
 	m := mux.NewRouter()
-	m.HandleFunc("/checks/{checkId}/reports/{reportId}", func(w http.ResponseWriter, r *http.Request) {
+	m.HandleFunc("/reports/{reportId}", func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-		assert.Equal(t, checkID, vars["checkId"])
 		assert.Equal(t, expected.ID, vars["reportId"])
 
 		w.Header().Set("Content-Type", "application/json")
@@ -140,7 +138,7 @@ func TestGetReport_ReportRetrieved_Consider(t *testing.T) {
 	client := onfido.NewClient("123")
 	client.Endpoint = srv.URL
 
-	r, err := client.GetReport(context.Background(), checkID, expected.ID)
+	r, err := client.GetReport(context.Background(), reportID)
 	if err != nil {
 		t.Fatal(err)
 	}

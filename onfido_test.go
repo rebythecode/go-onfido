@@ -95,7 +95,7 @@ func TestNewRequest_WithFullURL(t *testing.T) {
 }
 
 func TestNewRequest_WithPathUri(t *testing.T) {
-	expectedURL := "https://api.onfido.com/v2/applicants"
+	expectedURL := "https://api.onfido.com/v3/applicants"
 	client := NewClient("123")
 	uris := []string{"/applicants", "applicants"}
 
