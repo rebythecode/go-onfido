@@ -62,8 +62,8 @@ type Reports struct {
 
 // GetReport retrieves a report for the provided check by its ID.
 // see https://documentation.onfido.com/?shell#retrieve-report
-func (c *Client) GetReport(ctx context.Context, checkID, id string) (*Report, error) {
-	req, err := c.newRequest("GET", "/checks/"+checkID+"/reports/"+id, nil)
+func (c *Client) GetReport(ctx context.Context, id string) (*Report, error) {
+	req, err := c.newRequest("GET", "/reports/"+id, nil)
 	if err != nil {
 		return nil, err
 	}
