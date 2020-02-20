@@ -38,18 +38,7 @@ func main() {
 		panic(err)
 	}
 
-	check, err := client.CreateCheck(ctx, applicant.ID, onfido.CheckRequest{
-		Type: onfido.CheckTypeStandard,
-		Reports: []*onfido.Report{
-			{
-				Name: onfido.ReportNameDocument,
-			},
-			{
-				Name:    onfido.ReportNameIdentity,
-				Variant: onfido.ReportVariantKYC,
-			},
-		},
-	})
+	check, err := client.CreateCheck(ctx, applicant.ID, onfido.CheckRequest{})
 	if err != nil {
 		panic(err)
 	}

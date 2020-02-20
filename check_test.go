@@ -55,11 +55,7 @@ func TestCreateCheck_CheckCreated(t *testing.T) {
 	}
 
 	m := mux.NewRouter()
-	m.HandleFunc("/applicants/{id}/checks", func(w http.ResponseWriter, r *http.Request) {
-		vars := mux.Vars(r)
-		if vars["id"] != applicantID {
-			t.Fatal("expected applicant id was not in the request")
-		}
+	m.HandleFunc("/checks", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		_, wErr := w.Write(expectedJSON)
@@ -73,7 +69,6 @@ func TestCreateCheck_CheckCreated(t *testing.T) {
 
 	c, err := client.CreateCheck(context.Background(), applicantID, onfido.CheckRequest{
 		RedirectURI:       expected.RedirectURI,
-		Reports:           expected.Reports,
 		Tags:              expected.Tags,
 		SupressFormEmails: true,
 	})
