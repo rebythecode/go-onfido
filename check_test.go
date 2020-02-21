@@ -111,7 +111,7 @@ func TestGetCheck_CheckRetrieved(t *testing.T) {
 		FormURI:     "https://onfido.com/information/1234",
 		RedirectURI: "https://somewhere.else",
 		ResultsURI:  "https://onfido.com/dashboard/information_requests/1234",
-		Reports:     []string{"7410a943-8f00-43d8-98de-36a774196d86"},
+		ReportIDs:   []string{"7410a943-8f00-43d8-98de-36a774196d86"},
 		Tags:        []string{"my-tag"},
 	}
 	expectedJSON, err := json.Marshal(expected)
@@ -147,7 +147,7 @@ func TestGetCheck_CheckRetrieved(t *testing.T) {
 	assert.Equal(t, expected.FormURI, c.FormURI)
 	assert.Equal(t, expected.RedirectURI, c.RedirectURI)
 	assert.Equal(t, expected.ResultsURI, c.ResultsURI)
-	assert.EqualValues(t, expected.Reports, c.Reports)
+	assert.EqualValues(t, expected.ReportIDs, c.ReportIDs)
 }
 
 func TestGetCheckExpanded_NoReports(t *testing.T) {
@@ -159,7 +159,7 @@ func TestGetCheckExpanded_NoReports(t *testing.T) {
 		FormURI:     "https://onfido.com/information/1234",
 		RedirectURI: "https://somewhere.else",
 		ResultsURI:  "https://onfido.com/dashboard/information_requests/1234",
-		Reports:     []string{},
+		ReportIDs:   []string{},
 		Tags:        []string{"my-tag"},
 	}
 	expectedJSON, err := json.Marshal(expected)
@@ -228,7 +228,7 @@ func TestGetCheckExpanded_HasReports(t *testing.T) {
 		FormURI:     "https://onfido.com/information/1234",
 		RedirectURI: "https://somewhere.else",
 		ResultsURI:  "https://onfido.com/dashboard/information_requests/1234",
-		Reports:     []string{report1ID, report2ID},
+		ReportIDs:   []string{report1ID, report2ID},
 		Tags:        []string{"my-tag"},
 	}
 	expectedJSON, err := json.Marshal(expected)
@@ -270,7 +270,7 @@ func TestGetCheckExpanded_HasReports(t *testing.T) {
 	// Return the requested Report
 	m.HandleFunc("/reports/{reportId}", func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-		assert.Contains(t, expected.Reports, vars["reportId"])
+		assert.Contains(t, expected.ReportIDs, vars["reportId"])
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -331,7 +331,7 @@ func TestGetCheckExpanded_HasReports_NonOkResponse(t *testing.T) {
 		FormURI:     "https://onfido.com/information/1234",
 		RedirectURI: "https://somewhere.else",
 		ResultsURI:  "https://onfido.com/dashboard/information_requests/1234",
-		Reports:     []string{report1ID, report2ID},
+		ReportIDs:   []string{report1ID, report2ID},
 		Tags:        []string{"my-tag"},
 	}
 	expectedJSON, err := json.Marshal(expected)
@@ -359,7 +359,7 @@ func TestGetCheckExpanded_HasReports_NonOkResponse(t *testing.T) {
 	m.HandleFunc("/checks/{checkId}/reports/{reportId}", func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		assert.Equal(t, checkID, vars["checkId"])
-		assert.Contains(t, expected.Reports, vars["reportId"])
+		assert.Contains(t, expected.ReportIDs, vars["reportId"])
 
 		w.Header().Set("Content-Type", "application/json")
 
