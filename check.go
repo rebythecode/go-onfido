@@ -75,7 +75,7 @@ type CheckRetrieved struct {
 	FormURI               string      `json:"form_uri,omitempty"`
 	RedirectURI           string      `json:"redirect_uri,omitempty"`
 	ResultsURI            string      `json:"results_uri,omitempty"`
-	Reports               []string    `json:"reports,omitempty"`
+	ReportIDs             []string    `json:"report_ids,omitempty"`
 	Tags                  []string    `json:"tags,omitempty"`
 }
 
@@ -137,13 +137,13 @@ func (c *Client) GetCheckExpanded(ctx context.Context, id string) (*Check, error
 		FormURI:               chkRetrieved.FormURI,
 		RedirectURI:           chkRetrieved.RedirectURI,
 		ResultsURI:            chkRetrieved.ResultsURI,
-		Reports:               make([]*Report, len(chkRetrieved.Reports)),
+		Reports:               make([]*Report, len(chkRetrieved.ReportIDs)),
 		Tags:                  chkRetrieved.Tags,
 	}
 
 	// For each Report ID in the CheckRetrieved object, fetch (expand) the Report
 	// into the returned Check object.
-	for i, reportID := range chkRetrieved.Reports {
+	for i, reportID := range chkRetrieved.ReportIDs {
 		rep, err := c.GetReport(ctx, reportID)
 		if err != nil {
 			return nil, err
