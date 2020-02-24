@@ -129,8 +129,8 @@ func (c *Client) UploadDocument(ctx context.Context, applicantID string, dr Docu
 
 // GetDocument retrieves a single document for the provided applicant by its ID.
 // see https://documentation.onfido.com/?shell#retrieve-document
-func (c *Client) GetDocument(ctx context.Context, applicantID, id string) (*Document, error) {
-	req, err := c.newRequest("GET", "/applicants/"+applicantID+"/documents/"+id, nil)
+func (c *Client) GetDocument(ctx context.Context, id string) (*Document, error) {
+	req, err := c.newRequest("GET", "/documents/"+id, nil)
 	if err != nil {
 		return nil, err
 	}
