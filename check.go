@@ -69,7 +69,8 @@ type CheckRetrieved struct {
 	ID                    string      `json:"id,omitempty"`
 	CreatedAt             *time.Time  `json:"created_at,omitempty"`
 	Href                  string      `json:"href,omitempty"`
-	ApplicantProvidesData bool        `json:"type,omitempty"`
+	ApplicantID           string      `json:"applicant_id,omitempty"`
+	ApplicantProvidesData bool        `json:"applicant_provides_data,omitempty"`
 	Status                CheckStatus `json:"status,omitempty"`
 	Result                CheckResult `json:"result,omitempty"`
 	FormURI               string      `json:"form_uri,omitempty"`
@@ -77,6 +78,8 @@ type CheckRetrieved struct {
 	ResultsURI            string      `json:"results_uri,omitempty"`
 	ReportIDs             []string    `json:"report_ids,omitempty"`
 	Tags                  []string    `json:"tags,omitempty"`
+	Paused                bool        `json:"paused,omitempty"`
+	Version               string      `json:"version,omitempty"`
 }
 
 // Checks represents a list of checks in Onfido API
