@@ -51,7 +51,8 @@ type Check struct {
 	ID                    string      `json:"id,omitempty"`
 	CreatedAt             *time.Time  `json:"created_at,omitempty"`
 	Href                  string      `json:"href,omitempty"`
-	ApplicantProvidesData bool        `json:"type,omitempty"`
+	ApplicantID           string      `json:"applicant_id,omitempty"`
+	ApplicantProvidesData bool        `json:"applicant_provides_data,omitempty"`
 	Status                CheckStatus `json:"status,omitempty"`
 	Result                CheckResult `json:"result,omitempty"`
 	FormURI               string      `json:"form_uri,omitempty"`
@@ -59,6 +60,8 @@ type Check struct {
 	ResultsURI            string      `json:"results_uri,omitempty"`
 	Reports               []*Report   `json:"reports,omitempty"`
 	Tags                  []string    `json:"tags,omitempty"`
+	Paused                bool        `json:"paused,omitempty"`
+	Version               string      `json:"version,omitempty"`
 }
 
 // CheckRetrieved represents a check in the Onfido API which has been retrieved.
@@ -134,6 +137,7 @@ func (c *Client) GetCheckExpanded(ctx context.Context, id string) (*Check, error
 		ID:                    chkRetrieved.ID,
 		CreatedAt:             chkRetrieved.CreatedAt,
 		Href:                  chkRetrieved.Href,
+		ApplicantID:           chkRetrieved.ApplicantID,
 		ApplicantProvidesData: chkRetrieved.ApplicantProvidesData,
 		Status:                chkRetrieved.Status,
 		Result:                chkRetrieved.Result,
@@ -142,6 +146,8 @@ func (c *Client) GetCheckExpanded(ctx context.Context, id string) (*Check, error
 		ResultsURI:            chkRetrieved.ResultsURI,
 		Reports:               make([]*Report, len(chkRetrieved.ReportIDs)),
 		Tags:                  chkRetrieved.Tags,
+		Paused:                chkRetrieved.Paused,
+		Version:               chkRetrieved.Version,
 	}
 
 	// For each Report ID in the CheckRetrieved object, fetch (expand) the Report
